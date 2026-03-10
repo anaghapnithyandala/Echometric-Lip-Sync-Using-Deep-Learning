@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+*.mp4
+*.mpg
+*.gif
+dataset.zip
+models/
+LipNet/
+app/__pycache__/

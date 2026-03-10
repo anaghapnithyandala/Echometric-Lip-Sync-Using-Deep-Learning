@@ -1,6 +1,11 @@
 import os 
-from tensorflow.keras.models import Sequential 
-from tensorflow.keras.layers import Conv3D, LSTM, Dense, Dropout, Bidirectional, MaxPool3D, Activation, Reshape, SpatialDropout3D, BatchNormalization, TimeDistributed, Flatten
+try:
+    from keras.models import Sequential 
+    from keras.layers import Conv3D, LSTM, Dense, Dropout, Bidirectional, MaxPool3D, Activation, Reshape, SpatialDropout3D, BatchNormalization, TimeDistributed, Flatten
+except Exception:
+    from tensorflow.keras.models import Sequential 
+    from tensorflow.keras.layers import Conv3D, LSTM, Dense, Dropout, Bidirectional, MaxPool3D, Activation, Reshape, SpatialDropout3D, BatchNormalization, TimeDistributed, Flatten
+
 
 def load_model() -> Sequential: 
     model = Sequential()
@@ -27,6 +32,15 @@ def load_model() -> Sequential:
 
     model.add(Dense(41, kernel_initializer='he_normal', activation='softmax'))
 
-    model.load_weights(os.path.join('..','models','checkpoint'))
+    # Resolve weights path robustly
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    default_path = os.path.join(project_root, 'models', 'model_weights.h5')
+    env_path = os.environ.get('MODEL_WEIGHTS_PATH', '')
+    if env_path and os.path.isabs(env_path) and os.path.exists(env_path):
+        weights_path = env_path
+    else:
+        weights_path = default_path
+
+    model.load_weights(weights_path)
 
     return model

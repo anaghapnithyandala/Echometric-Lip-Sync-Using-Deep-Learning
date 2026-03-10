@@ -1,0 +1,5 @@
+{
+  "backend": "TensorFlow (Keras)",
+  "weights_path": "C:\\Users\\madhu\\OneDrive\\Desktop\\Lip\\models\\model_weights.h5",
+  "tflite_path": "models\\lipnet_dynamic.tflite"
+}
